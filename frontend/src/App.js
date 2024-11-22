@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Mypage from "./pages/Mypage";
 import Chat from "./pages/Chat";
-
+import InfoEdit from "./pages/InfoEdit";
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
       <Route path="/register" element={<Register />}/>
       <Route path="/mypage" element={<Mypage />}/>
       <Route path="/chat" element={<Chat />}/>
+      <Route path="/info-edit" element={<InfoEdit />}/>
     </Routes>
   );
 }
