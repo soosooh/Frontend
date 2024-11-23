@@ -1,12 +1,19 @@
 import styled from "styled-components";
 import { FaArrowRight } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export default function Member() {
+  const navigate = useNavigate();
+
+  const handleChatClick = () => {
+    navigate("/chat");
+  };
+
   return (
     <Container>
       <Title>유료회원</Title>
       <ButtonContainer>
-        <StyledButton>
+        <StyledButton onClick={handleChatClick}>
           상세 컨설팅 받아보기
           <FaArrowRight />
         </StyledButton>

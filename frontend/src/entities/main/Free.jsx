@@ -1,16 +1,27 @@
 import styled from "styled-components";
 import { FaArrowRight } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export default function Free() {
+  const navigate = useNavigate();
+
+  const handleChatClick = () => {
+    navigate("/chat");
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/register");
+  };
+
   return (
     <Container>
       <Title>무료회원</Title>
       <ButtonContainer>
-        <StyledButton>
+        <StyledButton onClick={handleChatClick}>
           무료 컨설팅 받아보기
           <FaArrowRight />
         </StyledButton>
-        <StyledButton>
+        <StyledButton onClick={handleRegisterClick}>
           유료회원 가입하기
           <FaArrowRight />
         </StyledButton>

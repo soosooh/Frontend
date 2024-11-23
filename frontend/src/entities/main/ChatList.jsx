@@ -2,8 +2,14 @@ import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
 import { GoPerson } from "react-icons/go";
 import { CiLogout } from "react-icons/ci";
+import LastChat from "./LastChat";
 
 export default function ChatList() {
+  const chatHistory = [
+    { id: 1, title: "리포팅 제목 1" },
+    { id: 2, title: "리포팅 제목 2" },
+    { id: 3, title: "리포팅 제목 3" },
+  ];
   return (
     <Container>
       <Logo src={logo} alt="logo"></Logo>
@@ -11,6 +17,9 @@ export default function ChatList() {
         <Divider />
         <Title>지난 대화</Title>
         <Divider />
+        {chatHistory.map((chat) => (
+          <LastChat key={chat.id} title={chat.title} />
+        ))}
       </TitleContainer>
       <Describe>대화를 시작해보세요!</Describe>
       <AuthContainer>
@@ -44,7 +53,7 @@ const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 16rem;
+  margin-bottom: 14rem;
 `;
 
 const Divider = styled.hr`
