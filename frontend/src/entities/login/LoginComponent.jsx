@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/register/logo.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginComponent() {
