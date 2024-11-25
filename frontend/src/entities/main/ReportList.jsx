@@ -142,6 +142,7 @@ const List = styled.div`
   gap: 0.8rem;
   align-items: center;
   margin-bottom: 1rem;
+  cursor: pointer;
 `;
 
 const Prev = styled.div`

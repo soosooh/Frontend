@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { hoverGrow } from "../../shared/animation/hoverGrow";
 
 export default function From({ selectedButton, setCurrentContent }) {
   const [companyData, setCompanyData] = useState({
@@ -152,4 +153,5 @@ const Button = styled.div`
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   background: ${(props) => (props.disabled ? "#eee" : "#333")};
   color: ${(props) => (props.disabled ? "#c9c9c9" : "#eee")};
+  ${hoverGrow}
 `;

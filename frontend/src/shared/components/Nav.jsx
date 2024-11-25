@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { hoverGrow } from "../animation/hoverGrow";
 
 export default function Nav({ selectedButton, setSelectedButton }) {
   const buttonLabel = [
@@ -50,4 +51,5 @@ const Button = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  ${hoverGrow}
 `;
