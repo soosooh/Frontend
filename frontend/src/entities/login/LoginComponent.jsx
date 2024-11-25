@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import logo from "../../assets/register/logo.svg";
 import { useNavigate } from "react-router-dom";
-
+import { login } from "../../api/registerApi";
 export default function LoginComponent() {
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function LoginComponent() {
     }));
   };
 
-  const handleLoginClick = () => {
+  const handleLoginClick = async () => {
     // 이메일 유효성 검사
     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -41,8 +41,17 @@ export default function LoginComponent() {
 
     // 에러가 없을 경우 로그인 성공 로직
     if (!Object.values(newErrors).some((error) => error)) {
-      console.log("로그인 성공:", values);
-      // 로그인 성공 로직 추가 가능
+      try {
+        const response = await login(values.email, values.password);
+        if (response.status === 200) {
+          const token = response.data.token;
+          localStorage.setItem("authToken", token);
+          alert("로그인 성공");
+          navigate("/");
+        }
+      } catch (error) {
+        alert("로그인 중 오류가 발생했습니다.");
+      }
     }
   };
 

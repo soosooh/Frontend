@@ -34,3 +34,19 @@ export const signup = async (data) => {
     throw error.response ? error.response.data : error;
   }
 };
+
+//로그인
+export const login = async (email, password) => {
+  try {
+    console.log("로그인 요청 데이터:", { email, password });
+    const response = await axiosInstance.post("/login", {
+      email,
+      password,
+    });
+    console.log("로그인 응답 데이터:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("로그인 오류: ", error);
+    throw error.response ? error.response.data : error;
+  }
+};
