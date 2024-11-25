@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { emailCheck, businessNumberCheck, signup } from "../../api/registerApi";
 
 export default function InputContent() {
-
   // 상태관리
   const [email, setEmail] = useState("");
+  const [emailChecked, setEmailChecked] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -42,7 +43,7 @@ export default function InputContent() {
   };
 
   const validateBusinessNumber = (value) => {
-    const businessNumberRegex = /^\d{2}-\d{3}-\d{6}$/;
+    const businessNumberRegex = /^\d{3}-\d{2}-\d{5}$/;
     return businessNumberRegex.test(value.trim());
   };
 
@@ -83,6 +84,70 @@ export default function InputContent() {
   const isEmailValid = validateEmail(email);
   const isBusinessNumberValid = validateBusinessNumber(businessNumber);
 
+  //이메일 중복확인
+  const handleEmailCheck = async () => {
+    try {
+      const response = await emailCheck(email);
+      if (response.status === 200) {
+        alert(response.message || "사용 가능한 이메일입니다.");
+        setEmailChecked(true);
+      } else {
+        alert(response.message || "이메일 중복 확인에 실패했습니다.");
+      }
+    } catch (error) {
+      alert(
+        error.message ||
+          "이메일 확인 중 오류가 발생했습니다. 다시 시도해주세요."
+      );
+      setEmailChecked(false);
+    }
+  };
+  //사업자 등록번호 검색
+  const handleBusinessNumberCheck = async () => {
+    try {
+      const response = await businessNumberCheck(businessNumber);
+
+      if (response.status === 0) {
+        alert("유효한 사업자 등록번호입니다!");
+      } else {
+        alert(response.message || "유효하지 않은 사업자 등록번호입니다.");
+      }
+    } catch (error) {
+      alert(
+        error.message ||
+          "사업자 등록번호 확인 중 오류가 발생했습니다. 다시 시도해주세요."
+      );
+    }
+  };
+
+  //회원가입 기능
+  const handleRegister = async () => {
+    if (!emailChecked) {
+      alert("이메일 중복확인을 진행해주세요.");
+      return;
+    }
+
+    const data = {
+      email,
+      password,
+      name,
+      phone,
+      businessNum: businessNumber,
+      signupRoute: path,
+      corporation: company,
+    };
+
+    try {
+      const result = await signup(data);
+      alert("회원가입에 성공했습니다!");
+      console.log("Signup success:", result);
+    } catch (error) {
+      alert(
+        error.message || "회원가입 중 오류가 발생했습니다. 다시 시도해주세요."
+      );
+    }
+  };
+
   return (
     <Wrapper>
       <InputContainer>
@@ -97,7 +162,9 @@ export default function InputContent() {
             placeholder="이메일을 입력해주세요."
             style={{ color: email ? "#000" : "#888" }}
           />
-          <Button disabled={!isEmailValid}>중복확인</Button>
+          <Button disabled={!isEmailValid} onClick={handleEmailCheck}>
+            중복확인
+          </Button>
         </div>
         {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
       </InputContainer>
@@ -166,10 +233,15 @@ export default function InputContent() {
           <Input
             value={businessNumber}
             onChange={(e) => handleBusinessNumberChange(e.target.value)}
-            placeholder="12-123-131313 형식으로 입력해주세요."
+            placeholder="123-12-13131 형식으로 입력해주세요."
             style={{ color: businessNumber ? "#000" : "#888" }}
           />
-          <Button disabled={!isBusinessNumberValid}>검색</Button>
+          <Button
+            disabled={!isBusinessNumberValid}
+            onClick={handleBusinessNumberCheck}
+          >
+            검색
+          </Button>
         </div>
         {errors.businessNumber && (
           <ErrorMessage>{errors.businessNumber}</ErrorMessage>
@@ -194,7 +266,9 @@ export default function InputContent() {
         />
       </InputContainer>
 
-      <RegisterButton disabled={!isFormValid}>가입하기</RegisterButton>
+      <RegisterButton disabled={!isFormValid} onClick={handleRegister}>
+        가입하기
+      </RegisterButton>
     </Wrapper>
   );
 }
