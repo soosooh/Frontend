@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function MainComponent() {
   const [selectedButton, setSelectedButton] = useState(0);
   const [currentContent, setCurrentContent] = useState("Form");
+  const [reportData, setReportData] = useState("");
 
   const handleButtonClick = (index) => {
     setSelectedButton(index);
@@ -21,7 +22,7 @@ export default function MainComponent() {
       return <Loading selectedButton={selectedButton} />;
     }
     if (currentContent === "Result") {
-      return <Result selectedButton={selectedButton} />;
+      return <Result selectedButton={selectedButton} reportData={reportData} />;
     }
 
     switch (selectedButton) {
@@ -31,6 +32,7 @@ export default function MainComponent() {
           <Form
             selectedButton={selectedButton}
             setCurrentContent={setCurrentContent}
+            setReportData={setReportData}
           />
         );
       case 2: // 유료구독
