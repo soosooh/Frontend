@@ -3,7 +3,11 @@ import { useState } from "react";
 import { hoverGrow } from "../../shared/animation/hoverGrow";
 import { getSummaryReport, getAllReport } from "../../api/consultApi";
 
-export default function From({ selectedButton, setCurrentContent }) {
+export default function From({
+  selectedButton,
+  setCurrentContent,
+  setReportData,
+}) {
   const [companyData, setCompanyData] = useState({
     companyName: "",
     companySize: "",
@@ -24,11 +28,13 @@ export default function From({ selectedButton, setCurrentContent }) {
     setCurrentContent("Loading");
 
     try {
+      let response;
       if (selectedButton === 0) {
-        await getSummaryReport();
+        response = await getSummaryReport();
       } else if (selectedButton === 1) {
-        await getAllReport();
+        response = await getAllReport();
       }
+      setReportData(response.data.summary || response.data.result);
       setCurrentContent("Result");
     } catch (error) {
       console.error("요청 실패:", error);
