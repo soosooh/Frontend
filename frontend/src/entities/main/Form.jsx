@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { hoverGrow } from "../../shared/animation/hoverGrow";
+import { getSummaryReport, getAllReport } from "../../api/consultApi";
 
 export default function From({ selectedButton, setCurrentContent }) {
   const [companyData, setCompanyData] = useState({
@@ -19,12 +20,19 @@ export default function From({ selectedButton, setCurrentContent }) {
     setCompanyData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLoading = () => {
+  const handleSubmit = async () => {
     setCurrentContent("Loading");
 
-    setTimeout(() => {
+    try {
+      if (selectedButton === 0) {
+        await getSummaryReport();
+      } else if (selectedButton === 1) {
+        await getAllReport();
+      }
       setCurrentContent("Result");
-    }, 3000);
+    } catch (error) {
+      console.error("요청 실패:", error);
+    }
   };
 
   const title = ["요약", "상세"];
@@ -84,7 +92,7 @@ export default function From({ selectedButton, setCurrentContent }) {
               justifyContent: "flex-end",
             }}
           >
-            <Button disabled={!isFormComplete} onClick={handleLoading}>
+            <Button disabled={!isFormComplete} onClick={handleSubmit}>
               자동생성
             </Button>
           </div>
