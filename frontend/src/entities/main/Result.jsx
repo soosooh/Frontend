@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { hoverGrow } from "../../shared/animation/hoverGrow";
-import { getPdf } from "../../api/consultApi";
+import { getPdf, getAllPdf } from "../../api/consultApi";
 export default function Result({ selectedButton, reportData }) {
   const title = ["요약", "상세"];
   const [name, setName] = useState("기업명");
@@ -22,7 +22,8 @@ export default function Result({ selectedButton, reportData }) {
     try {
       console.log("PDF 다운로드 시작");
 
-      const base64Pdf = await getPdf();
+      const base64Pdf =
+        selectedButton === 0 ? await getPdf() : await getAllPdf();
 
       // Base64 디코딩 및 Blob 생성
       const binary = atob(base64Pdf);
@@ -67,9 +68,7 @@ export default function Result({ selectedButton, reportData }) {
         <Title>
           {name} {title[selectedButton]} 컨설팅 리포트
         </Title>
-        {selectedButton === 1 && (
-          <Button onClick={downloadPdf}>pdf 다운</Button>
-        )}
+        <Button onClick={downloadPdf}>pdf 다운</Button>
       </div>
 
       <Content>
