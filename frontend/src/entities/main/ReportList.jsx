@@ -4,8 +4,10 @@ import profile from "../../assets/mypage/profile.svg";
 import logout from "../../assets/main/out.svg";
 import msg from "../../assets/main/msg.svg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ReportList() {
+  const navigate = useNavigate();
   const [name, setName] = useState("마음ai");
   const [report, setReport] = useState([
     "리포트1",
@@ -30,7 +32,6 @@ export default function ReportList() {
   ]);
   //const [report, setReport] = useState([]);
 
-
   return (
     <Wrapper>
       <Logo src={logo} />
@@ -50,12 +51,15 @@ export default function ReportList() {
       </ListWrapper>
 
       <ProfileWrapper>
-        <img 
-            src={profile} 
-            style={{ 
-                width: "2rem", 
-                height: "2rem", 
-                cursor:"pointer" }} />
+        <img
+          src={profile}
+          style={{
+            width: "2rem",
+            height: "2rem",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/login")}
+        />
         <Name>{name}</Name>
         <img
           src={logout}
@@ -64,7 +68,7 @@ export default function ReportList() {
             height: "1.2rem",
             position: "absolute",
             right: "0",
-            cursor:"pointer"
+            cursor: "pointer",
           }}
         />
       </ProfileWrapper>
